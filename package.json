@@ -1,0 +1,48 @@
+{
+  "name": "recommandation-playlist",
+  "private": true,
+  "version": "1.0.0",
+  "description": "recommandation-playlist",
+  "repository": "",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "cross-env NODE_ENV=development vite",
+    "build": "cross-env NODE_ENV=production vite build && npx workbox generateSW workbox-config.js",
+    "postinstall": "cpy --flat ./node_modules/framework7-icons/fonts/*.* ./src/fonts/ && cpy --flat ./node_modules/material-icons/iconfont/*.* ./src/fonts/"
+  },
+  "browserslist": [
+    "IOS >= 15",
+    "Safari >= 15",
+    "last 5 Chrome versions",
+    "last 5 Firefox versions"
+  ],
+  "dependencies": {
+    "@mui/x-charts": "^6.0.0-alpha.16",
+    "axios": "^1.5.1",
+    "chart.js": "^4.4.0",
+    "dom7": "^4.0.6",
+    "dotenv": "^16.3.1",
+    "framework7": "^8.3.0",
+    "framework7-icons": "^5.0.5",
+    "framework7-react": "^8.3.0",
+    "material-icons": "^1.13.12",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
+    "skeleton-elements": "^4.0.1",
+    "spotify-web-api-js": "^1.5.2",
+    "swiper": "^10.3.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-replace": "^5.0.4",
+    "@vitejs/plugin-react": "^4.1.0",
+    "cpy-cli": "^5.0.0",
+    "cross-env": "^7.0.3",
+    "postcss-preset-env": "^9.2.0",
+    "sass": "^1.69.3",
+    "vite": "^4.4.11",
+    "workbox-cli": "^7.0.0"
+  }
+}
