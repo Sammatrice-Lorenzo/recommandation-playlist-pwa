@@ -45,7 +45,6 @@ const Statistics = () => {
             if (index <= 2) {
                 topsTracks.push(tracks)
             }
-
         }
         setTopThreeTracks(topsTracks)
         setGenresMusicTrack(genres)
@@ -56,19 +55,19 @@ const Statistics = () => {
             let genresCounts = calculateGenreCounts(genresMusicTrack.concat(genresMusic))
             setTotGenres(genresCounts)
 
-            const sortedGenres = Object.keys(genresCounts).sort((a, b) => genresCounts[b] - genresCounts[a]);
+            const sortedGenres = Object.keys(genresCounts).sort((a, b) => genresCounts[b] - genresCounts[a])
             const top = sortedGenres.slice(0, 2)
 
             const firstGenreData = [
                 { value: getPercentageGenres(genresCounts, top[0]) },
                 { value: 100 - getPercentageGenres(genresCounts, top[0]) },
             ]
-        
+
             const secondGenreData = [
                 { value: getPercentageGenres(genresCounts, top[1]) },
                 { value: 100 - getPercentageGenres(genresCounts, top[1]) },
             ]
-          
+
             setTopGenres(top)
             setDataPie([firstGenreData, secondGenreData])
         }
@@ -88,15 +87,17 @@ const Statistics = () => {
             <Card key={keyCard}>
                 <div className="grid grid-cols-2 medium-grid-cols-4 grid-gap">
                     <CardContent>
-                        <img src={track.album.images[0].url} alt={track.name} style={{ width: "80%" }} />
+                        <img src={track.album.images[0].url} alt={track.name} style={{ width: '80%' }} />
                     </CardContent>
                     <CardContent>
-                        <div className='grid grid-cols-1 grid-gap'>
+                        <div className="grid grid-cols-1 grid-gap">
                             <div>
-                                <Typography className="text-size-1"><b>{track.name}</b></Typography>
+                                <Typography className="text-size-1">
+                                    <b>{track.name}</b>
+                                </Typography>
                             </div>
                             {track.artists.map((artist, index) => (
-                                <div key={index} >
+                                <div key={index}>
                                     <Typography className="text-size-2">{artist.name}</Typography>
                                 </div>
                             ))}
@@ -116,12 +117,38 @@ const Statistics = () => {
                 {dataPie && dataPie[0] && dataPie[1] ? (
                     <>
                         {f7.preloader.hide()}
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-                            <PieChartGenresMusic data={dataPie[0]} colors={['purple', 'white']} width={140} height={140}/>
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '100%',
+                            }}
+                        >
+                            <PieChartGenresMusic
+                                data={dataPie[0]}
+                                colors={['purple', 'white']}
+                                width={140}
+                                height={140}
+                            />
                             <h3 style={{ textAlign: 'center', marginTop: '5px' }}>{topGenres[0]}</h3>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%'  }}>
-                            <PieChartGenresMusic data={dataPie[1]} colors={['green', 'white']} width={140} height={140}/>
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '100%',
+                            }}
+                        >
+                            <PieChartGenresMusic
+                                data={dataPie[1]}
+                                colors={['green', 'white']}
+                                width={140}
+                                height={140}
+                            />
                             <h3 style={{ textAlign: 'center', marginTop: '5px' }}>{topGenres[1]}</h3>
                         </div>
                     </>
@@ -133,4 +160,4 @@ const Statistics = () => {
     )
 }
 
-export default Statistics 
+export default Statistics
