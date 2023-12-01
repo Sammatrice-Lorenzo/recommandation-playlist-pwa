@@ -49,7 +49,16 @@ export default async () => {
         define: {
             CLIENT_ID: JSON.stringify(env.CLIENT_ID),
             CLIENT_SECRET: JSON.stringify(env.CLIENT_SECRET),
-            URL_SITE: JSON.stringify(env.URL_SITE)
+            URL_SITE: JSON.stringify(env.URL_SITE),
+            API_URL: JSON.stringify(env.API_URL),
+
+            // Firebase
+            FIREBASE_API_KEY: JSON.stringify(env.FIREBASE_API_KEY),
+            AUTH_DOMAIN_FIREBASE: JSON.stringify(env.AUTH_DOMAIN_FIREBASE),
+            PROJECT_ID: JSON.stringify(env.PROJECT_ID),
+            STORAGE_BUCKET_FIREBASE: JSON.stringify(env.STORAGE_BUCKET_FIREBASE),
+            MESSAGING_SENDER_ID: JSON.stringify(env.MESSAGING_SENDER_ID),
+            APP_ID: JSON.stringify(env.APP_ID),
         }
     }
 }
