@@ -1,13 +1,15 @@
-import { logout } from '../js/util'
 import React, { useState, useEffect } from 'react'
 import { LogoComponent } from '../components/logo'
 import UserProfile from '../components/user-profile'
-import { Button, Page, Toolbar, Link, List, Card, LoginScreenTitle, BlockFooter, CardContent } from 'framework7-react'
+import { Button, Page, Toolbar, List, Card, LoginScreenTitle, BlockFooter, CardContent } from 'framework7-react'
 import { requestMotion, showCachedMovements } from '../js/movement'
+import { LinksToolbar } from '../components/links-toolbar'
+import { addUser } from '../js/user'
 
 const Home = () => {
     const redirectUri = encodeURIComponent(URL_SITE)
-    const scopes = 'user-read-private playlist-read-private user-top-read user-read-recently-played'
+    const scopes = 'user-read-private playlist-read-private user-top-read user-read-recently-played user-read-email '
+        + 'playlist-modify-public playlist-modify-private'
 
     const [token, setToken] = useState('')
     
@@ -36,6 +38,10 @@ const Home = () => {
 
         setToken(token)
     }, [])
+
+    const test = () => {
+        addUser('id', localStorage.getItem('userId'))
+    }
 
     return (
         <Page name="home" strong outlineIos>
@@ -84,27 +90,9 @@ const Home = () => {
                     <UserProfile></UserProfile>
                     <Button onClick={requestMotion}>Authorize</Button>
                     <Button onClick={showCachedMovements}>Mouvement en cache</Button>
+                    <Button onClick={test}>ADD USER</Button>
                     <Toolbar tabbar icons position="bottom">
-                        <Link
-                            tabLink="#tab-2"
-                            text="Playlist"
-                            iconIos="f7:music_note_2"
-                            iconMd="material:music_note_2"
-                        />
-                        <Link
-                            tabLink="#tab-1"
-                            tabLinkActive
-                            text="Accueil"
-                            iconIos="f7:house_fill"
-                            iconMd="material:house_fill"
-                        />
-                        <Link
-                            onClick={() => logout()}
-                            tabLink="#tab-3"
-                            text="Déconnexion"
-                            iconIos="f7:square_arrow_right"
-                            iconMd="material:logout"
-                        />
+                        <LinksToolbar activeTab={'#tab-1'}/>
                     </Toolbar>
                 </Page>
             )}

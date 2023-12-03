@@ -1,6 +1,7 @@
 import { f7 } from 'framework7-react'
 import { getUrl } from './url'
 import { apiRequest } from './api'
+import Framework7 from 'framework7/types'
 
 let movementUser = []
 
@@ -73,17 +74,19 @@ export function showCachedMovements() {
 /**
  * Pour test on laisse 1 min
  * Il faut mettre 20 min => 1 200 000
+ * 
+ * @param { Framework7 } app
  */
-export function sendMovementsUser() {
+export async function sendMovementsUser(app) {
     const url = getUrl('/recommendation')
     const cachedMovements = JSON.parse(localStorage.getItem('movementUser'))
 
-    alert(typeof cachedMovements)
     if (cachedMovements !== null || cacheMovementsUser !== undefined) {
-        setInterval(() => {
-            apiRequest(url, 'POST', JSON.stringify(cachedMovements))
-            removeCacheMovementsUser()
-        }, 30000)
-        // }, 60000)
+        const playlist = await apiRequest(url, 'POST', cachedMovements)
+        removeCacheMovementsUser()
+
+        if (playlist) {
+            app.view.main.router.navigate({ name: 'playlist-recommended',  params: { playlist: JSON.stringify(playlist) }})
+        }
     }
 }

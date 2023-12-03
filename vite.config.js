@@ -55,6 +55,7 @@ export default async () => {
             // Firebase
             FIREBASE_API_KEY: JSON.stringify(env.FIREBASE_API_KEY),
             AUTH_DOMAIN_FIREBASE: JSON.stringify(env.AUTH_DOMAIN_FIREBASE),
+            DATABASE_URL: JSON.stringify(env.DATABASE_URL),
             PROJECT_ID: JSON.stringify(env.PROJECT_ID),
             STORAGE_BUCKET_FIREBASE: JSON.stringify(env.STORAGE_BUCKET_FIREBASE),
             MESSAGING_SENDER_ID: JSON.stringify(env.MESSAGING_SENDER_ID),

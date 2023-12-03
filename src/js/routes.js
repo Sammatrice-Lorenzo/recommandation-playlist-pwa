@@ -1,6 +1,7 @@
 
 import HomePageF7 from '../pages/home-f7.jsx';
 import Home from '../pages/home.jsx';
+import PlaylistRecommended from '../pages/playlist-recommended.jsx'
 import AboutPage from '../pages/about.jsx';
 import FormPage from '../pages/form.jsx';
 
@@ -10,16 +11,17 @@ import RequestAndLoad from '../pages/request-and-load.jsx';
 import NotFoundPage from '../pages/404.jsx';
 
 const routes = [
-    // {
-    //     path: '/',
-    //     component: HomePageF7,
-    // },
     {
         path: '/',
         component: Home,
         props: {
             f7: app
         }
+    },
+    {
+        name: 'playlist-recommended',
+        path: '/playlist-recommended/:playlist',
+        component: PlaylistRecommended,
     },
     {
         path: '/about/',

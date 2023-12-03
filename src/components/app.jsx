@@ -26,13 +26,16 @@ const MyApp = () => {
         f7.on('click', () => {
             requestMotion()
         })
+        setInterval(async () => {
+            await sendMovementsUser(f7)
+        // }, 30000)
+        // }, 1200000)
+        }, 120000)
     })
-
-    sendMovementsUser()
 
     return (
         <App { ...f7params }>
-            {/* Your main view, should have "view-main" class */}
+            {/* view-main */}
             <View main className="safe-areas" url="/" />
         </App>
     )

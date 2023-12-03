@@ -1,9 +1,10 @@
 import { callApiSpotify } from '../js/api'
 import { calculateGenreCounts, getPercentageGenres } from '../js/util'
 import React, { useEffect, useState } from 'react'
-import { Block, BlockTitle, Card, CardContent, f7 } from 'framework7-react'
+import { Block, BlockTitle, f7 } from 'framework7-react'
 import { PieChartGenresMusic } from './pie-chart'
 import { Typography } from '@mui/material'
+import { CardTrack } from './card-track'
 
 const Statistics = () => {
     const [genresMusic, setGenresMusic] = useState([])
@@ -18,20 +19,20 @@ const Statistics = () => {
     }
 
     const informationsGenresMusicUser = async () => {
-        const { data } = await callApiSpotify('https://api.spotify.com/v1/me/top/artists')
+        const data= await callApiSpotify('https://api.spotify.com/v1/me/top/artists', 'GET')
         const genres = extractGenres(data.items, 'genres')
-
+        
         setGenresMusic(genres)
     }
 
     const informationsArtist = async (artist) => {
-        const { data } = await callApiSpotify(`https://api.spotify.com/v1/artists/${artist}`)
+        const data = await callApiSpotify(`https://api.spotify.com/v1/artists/${artist}`, 'GET')
 
         return data
     }
 
     const informationsTopTracksUser = async () => {
-        const { data } = await callApiSpotify(`https://api.spotify.com/v1/me/top/tracks`)
+        const data = await callApiSpotify(`https://api.spotify.com/v1/me/top/tracks`, 'GET')
 
         let genres = []
         let topsTracks = []
@@ -83,28 +84,8 @@ const Statistics = () => {
     }, [genresMusic, genresMusicTrack])
 
     const renderTopTracks = () => {
-        return topThreeTracks.map((track, keyCard) => (
-            <Card key={keyCard}>
-                <div className="grid grid-cols-2 medium-grid-cols-4 grid-gap">
-                    <CardContent>
-                        <img src={track.album.images[0].url} alt={track.name} style={{ width: '80%' }} />
-                    </CardContent>
-                    <CardContent>
-                        <div className="grid grid-cols-1 grid-gap">
-                            <div>
-                                <Typography className="text-size-1">
-                                    <b>{track.name}</b>
-                                </Typography>
-                            </div>
-                            {track.artists.map((artist, index) => (
-                                <div key={index}>
-                                    <Typography className="text-size-2">{artist.name}</Typography>
-                                </div>
-                            ))}
-                        </div>
-                    </CardContent>
-                </div>
-            </Card>
+        return topThreeTracks.map((track, index) => (
+            <CardTrack key={index} track={track}></CardTrack>
         ))
     }
 

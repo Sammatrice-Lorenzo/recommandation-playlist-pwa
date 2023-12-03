@@ -9,8 +9,9 @@ const UserProfile = () => {
     const [user, setUser] = useState('');
 
     const showInformationUser = async () => {
-        const { data } = await callApiSpotify('https://api.spotify.com/v1/me')
+        const data = await callApiSpotify('https://api.spotify.com/v1/me', 'GET')
         setUser(data)
+        localStorage.setItem('userId', data.id)
     };
 
     useEffect(() => {
