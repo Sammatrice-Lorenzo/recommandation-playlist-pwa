@@ -1,6 +1,6 @@
 import { Link } from 'framework7-react'
 import PropTypes from 'prop-types'
-import { logout } from '../js/util'
+import { logout } from '../js/userStorage'
 
 export const LinksToolbar = ({ activeTab }) => {
     return (

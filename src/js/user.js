@@ -1,27 +1,59 @@
-import { auth } from "./firebase"
-import { ref, set, getDatabase } from 'firebase/database'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { v4 as uuidv4 } from 'uuid'
+import { database } from "./firebase"
+import { ref, set, get } from 'firebase/database'
+import { getEmailUserStored } from "./userStorage"
 
-const database = getDatabase()
+const userUId = uuidv4()
 
-export async function addUser(userId, user) {
+/**
+ * @returns { void }
+ */
+export async function createUser() {
+    const email = getEmailUserStored()
+
     try {
-        const userUId = userCredential.user.uid
-        const playlist = { name: 'test'}
-        const userRef = ref(database, 'playlists/')
+        const userRef = ref(database, 'users/' + userUId)
         await set(userRef, {
-            name: playlist,
+            email: email,
         }).then(() => console.log(('succes')))
-        alert('User added successfully');
-        // const userCredential = await createUserWithEmailAndPassword(auth, userId, '0000')
-        // const userUId = userCredential.user.uid
-
-        // const userRef = ref(database, 'users/' + userUId)
-        // await set(userRef, {
-        //     id: user,
-        // }).then(() => console.log(('succes')))
-        // alert('User added successfully');
     } catch (error) {
-        console.log(error.message);
+        console.log(error.message)
     }
+}
+
+/**
+ * @param { string } emailUserSpotify 
+ * @returns { Promise<any> } 
+ */
+export async function findUser(emailUserSpotify) {
+    const usersRef = ref(database, 'users')
+    const snapshot = await get(usersRef)
+
+    let user = null
+    if (snapshot.exists()) {
+        const users = snapshot.val()
+        const usersToArray = Object.entries(users).map(([uId, user]) => ({
+            uId: uId,
+            email: user.email,
+        }))
+
+        user = usersToArray.filter(user => user.email === emailUserSpotify)[0]
+    }
+
+    return user
+}
+
+/**
+ * @param { string } emailUser
+ * @returns {  Promise<any> }
+ */
+export async function getUser(emailUser) {
+    let user = await findUser(emailUser)
+
+    if (!user) {
+        createUser(emailUser)
+        user = await findUser(emailUser)
+    }
+
+    return user
 }

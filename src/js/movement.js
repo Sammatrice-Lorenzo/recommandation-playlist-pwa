@@ -5,6 +5,9 @@ import Framework7 from 'framework7/types'
 
 let movementUser = []
 
+/**
+ * @param {Array<Int16Array, Object> } userPosition 
+ */
 function cacheMovementsUser(userPosition) {
     localStorage.setItem('movementUser', JSON.stringify(userPosition))
 }
@@ -53,9 +56,9 @@ export const requestMotion = async () => {
     } else if (f7.device.android) {
         startAccelCollection()
     } else {
-        f7.dialog.alert(
-            "Le navigateur ne prend pas en charge la demande d'autorisation pour récupérer vos informations de mouvement"
-        )
+        // f7.dialog.alert(
+        //     "Le navigateur ne prend pas en charge la demande d'autorisation pour récupérer vos informations de mouvement"
+        // )
     }
 }
 

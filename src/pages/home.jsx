@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { LogoComponent } from '../components/logo'
 import UserProfile from '../components/user-profile'
-import { Button, Page, Toolbar, List, Card, LoginScreenTitle, BlockFooter, CardContent } from 'framework7-react'
-import { requestMotion, showCachedMovements } from '../js/movement'
+import { Button, Page, Toolbar, List, Card, LoginScreenTitle, BlockFooter, CardContent, f7 } from 'framework7-react'
 import { LinksToolbar } from '../components/links-toolbar'
-import { addUser } from '../js/user'
 
 const Home = () => {
     const redirectUri = encodeURIComponent(URL_SITE)
@@ -38,10 +36,6 @@ const Home = () => {
 
         setToken(token)
     }, [])
-
-    const test = () => {
-        addUser('id', localStorage.getItem('userId'))
-    }
 
     return (
         <Page name="home" strong outlineIos>
@@ -88,9 +82,6 @@ const Home = () => {
             ) : (
                 <Page strong outline>
                     <UserProfile></UserProfile>
-                    <Button onClick={requestMotion}>Authorize</Button>
-                    <Button onClick={showCachedMovements}>Mouvement en cache</Button>
-                    <Button onClick={test}>ADD USER</Button>
                     <Toolbar tabbar icons position="bottom">
                         <LinksToolbar activeTab={'#tab-1'}/>
                     </Toolbar>

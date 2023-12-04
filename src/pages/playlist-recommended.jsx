@@ -5,15 +5,19 @@ import { CardTrack } from '../components/card-track'
 import { callApiSpotify } from '../js/api'
 import { Box, Typography } from '@mui/material'
 import { LinksToolbar } from '../components/links-toolbar'
+import { addPlaylistByUser } from '../js/playlist'
+import { getUserIdStored } from '../js/userStorage'
 
 const PlaylistRecommended = (props) => {
-    const playlist = JSON.parse(props.playlist)
+    const playlist = JSON.parse(props.playlist)[0]
     const [tracks, setTracks] = useState([])
     const [typePlaylist, setTypePlaylist] = useState('')
+    const [namePlaylist, setNamePlaylist] = useState('')
 
     const playlistRecommended = async () => {
         const tracksPlaylist = []
-        for (const track of playlist[0]['tracks']) {
+        
+        for (const track of playlist.tracks) {
             const search = await callApiSpotify(`https://api.spotify.com/v1/search?q=${track.name}${track.artist}&type=track`, 'GET')
             const trackSearched = search.tracks.items[0]
             if (trackSearched) {
@@ -21,7 +25,10 @@ const PlaylistRecommended = (props) => {
             }
         }
         setTracks(tracksPlaylist)
-        setTypePlaylist(playlist[0]['type'])
+        setTypePlaylist(playlist.type)
+
+        setNamePlaylist(`PulsePlayPlaylist ${playlist.type}`)
+        addPlaylistByUser(`PulsePlayPlaylist ${playlist.type}`, playlist)
     }
 
     useEffect(() => {
@@ -29,11 +36,11 @@ const PlaylistRecommended = (props) => {
     }, [])
 
     const savePlaylistInSpotify = async () => {
-        const userId = localStorage.getItem('userId')
+        const userId = getUserIdStored()
         const body = {
-            'name': `PulsePlayPlaylist ${typePlaylist}`,
-            'description': 'Playlist crée selon vous mouvements',
-            'public': true
+            name: namePlaylist,
+            description: 'Playlist crée selon vous mouvements',
+            public: true
         }
 
         const playlist = await callApiSpotify(`https://api.spotify.com/v1/users/${userId}/playlists`, 'POST', body)
@@ -43,7 +50,7 @@ const PlaylistRecommended = (props) => {
             `https://api.spotify.com/v1/playlists/${playlist.id}/tracks?uris=${tracksUri.join(',')}`,
             'POST'
         ).then(() => f7.dialog.alert('Votre playlist a été correctement ajouté'))
-        .catch(() => f7.dialog.alert('La playlist n\a pas ou être sauvegardé sur Spotify'))
+        .catch(() => f7.dialog.alert('La playlist n\'a pas ou être sauvegardé sur Spotify'))
     }
 
     return (

@@ -1,5 +1,5 @@
 import { callApiSpotify } from '../js/api'
-import { calculateGenreCounts, getPercentageGenres } from '../js/util'
+import { calculateGenreCounts, getPercentageGenres } from '../js/statistics'
 import React, { useEffect, useState } from 'react'
 import { Block, BlockTitle, f7 } from 'framework7-react'
 import { PieChartGenresMusic } from './pie-chart'

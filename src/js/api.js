@@ -1,6 +1,5 @@
-import axios from 'axios'
 import { getToken } from "./token"
-import { logout } from './util'
+import { logout } from './userStorage'
 import { f7 } from 'framework7-react'
 
 export const ERROR_SERVER = 'La requête n\'as pa pu aboutir'

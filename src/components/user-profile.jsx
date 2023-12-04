@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { Block } from 'framework7-react'
 import Statistics from './statistics'
 import { callApiSpotify } from '../js/api'
+import { storeEmailUser, storeUserId } from '../js/userStorage'
 
 const UserProfile = () => {
     const [user, setUser] = useState('');
@@ -11,7 +12,8 @@ const UserProfile = () => {
     const showInformationUser = async () => {
         const data = await callApiSpotify('https://api.spotify.com/v1/me', 'GET')
         setUser(data)
-        localStorage.setItem('userId', data.id)
+        storeUserId(data.id)
+        storeEmailUser(data.email)
     };
 
     useEffect(() => {
