@@ -1,9 +1,10 @@
 import { callApiSpotify } from '../js/api'
-import { calculateGenreCounts, getPercentageGenres } from '../js/util'
+import { calculateGenreCounts, getPercentageGenres } from '../js/statistics'
 import React, { useEffect, useState } from 'react'
-import { Block, BlockTitle, Card, CardContent, f7 } from 'framework7-react'
+import { Block, BlockTitle, f7 } from 'framework7-react'
 import { PieChartGenresMusic } from './pie-chart'
 import { Typography } from '@mui/material'
+import { CardTrack } from './card-track'
 
 const Statistics = () => {
     const [genresMusic, setGenresMusic] = useState([])
@@ -18,20 +19,20 @@ const Statistics = () => {
     }
 
     const informationsGenresMusicUser = async () => {
-        const { data } = await callApiSpotify('https://api.spotify.com/v1/me/top/artists')
+        const data= await callApiSpotify('https://api.spotify.com/v1/me/top/artists', 'GET')
         const genres = extractGenres(data.items, 'genres')
-
+        
         setGenresMusic(genres)
     }
 
     const informationsArtist = async (artist) => {
-        const { data } = await callApiSpotify(`https://api.spotify.com/v1/artists/${artist}`)
+        const data = await callApiSpotify(`https://api.spotify.com/v1/artists/${artist}`, 'GET')
 
         return data
     }
 
     const informationsTopTracksUser = async () => {
-        const { data } = await callApiSpotify(`https://api.spotify.com/v1/me/top/tracks`)
+        const data = await callApiSpotify(`https://api.spotify.com/v1/me/top/tracks`, 'GET')
 
         let genres = []
         let topsTracks = []
@@ -45,7 +46,6 @@ const Statistics = () => {
             if (index <= 2) {
                 topsTracks.push(tracks)
             }
-
         }
         setTopThreeTracks(topsTracks)
         setGenresMusicTrack(genres)
@@ -56,19 +56,19 @@ const Statistics = () => {
             let genresCounts = calculateGenreCounts(genresMusicTrack.concat(genresMusic))
             setTotGenres(genresCounts)
 
-            const sortedGenres = Object.keys(genresCounts).sort((a, b) => genresCounts[b] - genresCounts[a]);
+            const sortedGenres = Object.keys(genresCounts).sort((a, b) => genresCounts[b] - genresCounts[a])
             const top = sortedGenres.slice(0, 2)
 
             const firstGenreData = [
                 { value: getPercentageGenres(genresCounts, top[0]) },
                 { value: 100 - getPercentageGenres(genresCounts, top[0]) },
             ]
-        
+
             const secondGenreData = [
                 { value: getPercentageGenres(genresCounts, top[1]) },
                 { value: 100 - getPercentageGenres(genresCounts, top[1]) },
             ]
-          
+
             setTopGenres(top)
             setDataPie([firstGenreData, secondGenreData])
         }
@@ -84,26 +84,8 @@ const Statistics = () => {
     }, [genresMusic, genresMusicTrack])
 
     const renderTopTracks = () => {
-        return topThreeTracks.map((track, keyCard) => (
-            <Card key={keyCard}>
-                <div className="grid grid-cols-2 medium-grid-cols-4 grid-gap">
-                    <CardContent>
-                        <img src={track.album.images[0].url} alt={track.name} style={{ width: "80%" }} />
-                    </CardContent>
-                    <CardContent>
-                        <div className='grid grid-cols-1 grid-gap'>
-                            <div>
-                                <Typography className="text-size-1"><b>{track.name}</b></Typography>
-                            </div>
-                            {track.artists.map((artist, index) => (
-                                <div key={index} >
-                                    <Typography className="text-size-2">{artist.name}</Typography>
-                                </div>
-                            ))}
-                        </div>
-                    </CardContent>
-                </div>
-            </Card>
+        return topThreeTracks.map((track, index) => (
+            <CardTrack key={index} track={track}></CardTrack>
         ))
     }
 
@@ -116,12 +98,38 @@ const Statistics = () => {
                 {dataPie && dataPie[0] && dataPie[1] ? (
                     <>
                         {f7.preloader.hide()}
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-                            <PieChartGenresMusic data={dataPie[0]} colors={['purple', 'white']} width={140} height={140}/>
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '100%',
+                            }}
+                        >
+                            <PieChartGenresMusic
+                                data={dataPie[0]}
+                                colors={['purple', 'white']}
+                                width={140}
+                                height={140}
+                            />
                             <h3 style={{ textAlign: 'center', marginTop: '5px' }}>{topGenres[0]}</h3>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%'  }}>
-                            <PieChartGenresMusic data={dataPie[1]} colors={['green', 'white']} width={140} height={140}/>
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '100%',
+                            }}
+                        >
+                            <PieChartGenresMusic
+                                data={dataPie[1]}
+                                colors={['green', 'white']}
+                                width={140}
+                                height={140}
+                            />
                             <h3 style={{ textAlign: 'center', marginTop: '5px' }}>{topGenres[1]}</h3>
                         </div>
                     </>
@@ -133,4 +141,4 @@ const Statistics = () => {
     )
 }
 
-export default Statistics 
+export default Statistics

@@ -1,4 +1,5 @@
 import { PieChart } from '@mui/x-charts'
+import PropTypes from 'prop-types'
 
 export const PieChartGenresMusic = (props) => {
     return (
@@ -25,4 +26,11 @@ export const PieChartGenresMusic = (props) => {
             </text>
         </PieChart>
     )
+}
+
+PieChartGenresMusic.propTypes = {
+    data: PropTypes.array.isRequired,
+    colors: PropTypes.array.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
 }

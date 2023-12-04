@@ -1,5 +1,5 @@
 
-export function LogoSpotify (props) {
+export function LogoSpotify () {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width={200} viewBox="-111.68505 -55.829 967.9371 334.974">
             <path d="M177.707 98.987c-35.992-21.375-95.36-23.34-129.719-12.912-5.519 1.674-11.353-1.44-13.024-6.958-1.672-5.521
