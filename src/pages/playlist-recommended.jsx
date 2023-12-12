@@ -60,9 +60,16 @@ const PlaylistRecommended = (props) => {
                     <Typography variant='h4' sx={{textAlign: 'center'}}>Playlist {typePlaylist}</Typography>
                 </div>
             </Block>
-            {tracks.length >= 1 ? tracks.map((track, index) => (
-                <CardTrack track={track} key={index}></CardTrack>
-            )): null}
+            {
+                tracks.length >= 1 ? (
+                    <>
+                        {f7.preloader.hide()}
+                        {tracks.map((track, index) => (
+                            <CardTrack track={track} key={index}></CardTrack>
+                        ))}
+                    </>
+                ) : f7.preloader.show()
+            }
             <Box style={{
                 display: 'flex',
                 justifyContent: 'center',

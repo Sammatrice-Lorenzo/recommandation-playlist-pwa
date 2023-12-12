@@ -3,14 +3,18 @@ import PropTypes from 'prop-types'
 import { logout } from '../js/userStorage'
 
 export const LinksToolbar = ({ activeTab }) => {
+    const playlist = JSON.parse(localStorage.getItem('playlist'))
+
     return (
         <>
             <Link
                 tabLink="#tab-2"
-                text="Playlist"
+                text="Recommendation"
                 iconIos="f7:music_note_2"
                 iconMd="material:music_note_2"
                 tabLinkActive={activeTab === '#tab-2'}
+                href={playlist !== null ? `/playlist-recommended/${playlist}` : '/'}
+                routeProps={playlist}
             />
             <Link
                 tabLink="#tab-1"
@@ -19,6 +23,14 @@ export const LinksToolbar = ({ activeTab }) => {
                 iconIos="f7:house_fill"
                 iconMd="material:house_fill"
                 href="/"
+            />
+            <Link
+                tabLink="#tab-4"
+                text="Playlists"
+                iconIos="f7:music_albums"
+                iconMd="material:music_albums"
+                tabLinkActive={activeTab === '#tab-4'}
+                href="/playlists-user/"
             />
             <Link
                 onClick={() => logout()}

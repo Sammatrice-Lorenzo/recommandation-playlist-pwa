@@ -1,6 +1,7 @@
-import { Typography } from "@mui/material"
-import { Card, CardContent } from "framework7-react"
 import PropTypes from 'prop-types'
+import { Typography } from "@mui/material"
+import ReactAudioPlayer from 'react-audio-player'
+import { Card, CardContent } from "framework7-react"
 
 export const CardTrack = ({ track }) => {
     return (
@@ -21,6 +22,13 @@ export const CardTrack = ({ track }) => {
                                 <Typography className="text-size-2">{artist.name}</Typography>
                             </div>
                         ))}
+                    </div>
+                    <div>
+                        <ReactAudioPlayer
+                            src={track.preview_url}
+                            controls
+                            style={{ width: '100%' }}
+                        />
                     </div>
                 </CardContent>
             </div>
