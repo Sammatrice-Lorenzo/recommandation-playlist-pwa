@@ -1,19 +1,23 @@
-import { f7 } from 'framework7-react'
 import { getUrl } from './url'
 import { apiRequest } from './api'
-import Framework7 from 'framework7/types'
+import { f7 } from 'framework7-react'
+import Framework7 from 'framework7/bundle'
+import { sendNotificationForRecommendation } from './notification'
+
+const MOVEMENT_USER = 'movementUser'
+const PLAYLIST_RECOMMENDED = 'playlist'
 
 let movementUser = []
 
 /**
- * @param {Array<Int16Array, Object> } userPosition 
+ * @param {Array<Int16Array, Object> } elementToCached 
  */
-function cacheMovementsUser(userPosition) {
-    localStorage.setItem('movementUser', JSON.stringify(userPosition))
+function cacheElement(key, elementToCached) {
+    localStorage.setItem(key, JSON.stringify(elementToCached))
 }
 
-function removeCacheMovementsUser() {
-    localStorage.removeItem('movementUser')
+function removeCacheElement(key) {
+    localStorage.removeItem(key)
     movementUser = []
 }
 
@@ -32,7 +36,7 @@ export function startAccelCollection() {
                 gamma: gyroscope.gamma
             }
             movementUser.push(mouve)
-            cacheMovementsUser(movementUser)
+            cacheElement(MOVEMENT_USER, movementUser)
         })
     } else {
         f7.dialog.alert("Le navigateur ne prend pas en charge l'accéléromètre.")
@@ -62,34 +66,21 @@ export const requestMotion = async () => {
     }
 }
 
-export function showCachedMovements() {
-    const cachedMovements = JSON.parse(localStorage.getItem('movementUser'))
 
-    alert(cachedMovements !== null ? cachedMovements.length : 0)
-    // alert(movementUser.length)
-    // cachedMovements.forEach((data) =>
-    //     f7.dialog.alert(
-    //         `x${data.x} alpha${data.alpha} y${data.y} b${data.beta} z${data.z} g${data.gamma}`
-    //     ),
-    // )
-}
-
-/**
- * Pour test on laisse 1 min
- * Il faut mettre 20 min => 1 200 000
- * 
- * @param { Framework7 } app
- */
-export async function sendMovementsUser(app) {
+export async function sendMovementsUser() {
     const url = getUrl('/recommendation')
-    const cachedMovements = JSON.parse(localStorage.getItem('movementUser'))
+    const cachedMovements = JSON.parse(localStorage.getItem(MOVEMENT_USER))
 
-    if (cachedMovements !== null || cacheMovementsUser !== undefined) {
+    if (cachedMovements !== null) {
         const playlist = await apiRequest(url, 'POST', cachedMovements)
-        removeCacheMovementsUser()
+        removeCacheElement(MOVEMENT_USER)
+        removeCacheElement(PLAYLIST_RECOMMENDED)
 
         if (playlist) {
-            app.view.main.router.navigate({ name: 'playlist-recommended',  params: { playlist: JSON.stringify(playlist) }})
+            const playlistToString = JSON.stringify(playlist)
+
+            cacheElement(PLAYLIST_RECOMMENDED, playlistToString)
+            sendNotificationForRecommendation(f7, playlistToString)
         }
     }
 }

@@ -27,10 +27,9 @@ const MyApp = () => {
             requestMotion()
         })
         setInterval(async () => {
-            await sendMovementsUser(f7)
-        // }, 30000)
-        // }, 1200000)
-        }, 120000)
+            await sendMovementsUser()
+        }, 1200000)
+        // }, 60000)
     })
 
     return (

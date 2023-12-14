@@ -1,14 +1,9 @@
 
-import HomePageF7 from '../pages/home-f7.jsx';
-import Home from '../pages/home.jsx';
+import Home from '../pages/home.jsx'
+import NotFoundPage from '../pages/404.jsx'
 import PlaylistRecommended from '../pages/playlist-recommended.jsx'
-import AboutPage from '../pages/about.jsx';
-import FormPage from '../pages/form.jsx';
-
-
-import DynamicRoutePage from '../pages/dynamic-route.jsx';
-import RequestAndLoad from '../pages/request-and-load.jsx';
-import NotFoundPage from '../pages/404.jsx';
+import PlaylistUser from '../pages/playlists-user.jsx';
+import TracksPlaylist from '../pages/tracks-playlist.jsx';
 
 const routes = [
     {
@@ -22,64 +17,22 @@ const routes = [
         name: 'playlist-recommended',
         path: '/playlist-recommended/:playlist',
         component: PlaylistRecommended,
-    },
-    {
-        path: '/about/',
-        component: AboutPage,
-    },
-    {
-        path: '/form/',
-        component: FormPage,
-    },
-    {
-        path: '/dynamic-route/blog/:blogId/post/:postId/',
-        component: DynamicRoutePage,
-    },
-    {
-        path: '/request-and-load/user/:userId/',
-        async: function ({ router, to, resolve }) {
-            // App instance
-            var app = router.app;
-
-            // Show Preloader
-            app.preloader.show();
-
-            // User ID from request
-            var userId = to.params.userId;
-
-            // Simulate Ajax Request
-            setTimeout(function () {
-                // We got user data from request
-                var user = {
-                firstName: 'Vladimir',
-                lastName: 'Kharlampidi',
-                about: 'Hello, i am creator of Framework7! Hope you like it!',
-                links: [
-                    {
-                    title: 'Framework7 Website',
-                    url: 'http://framework7.io',
-                    },
-                    {
-                    title: 'Framework7 Forum',
-                    url: 'http://forum.framework7.io',
-                    },
-                ]
-                };
-                // Hide Preloader
-                app.preloader.hide();
-
-                // Resolve route to load page
-                resolve({
-                    component: RequestAndLoad,
-                    },
-                    {
-                        props: {
-                        user: user,
-                    }
-                    }
-                );
-            }, 1000);
+        options: {
+            props: true,
         },
+    },
+    {
+        name: 'playlists-user',
+        path: '/playlists-user/',
+        component: PlaylistUser,
+    },
+    {
+        name: 'tracks-playlist',
+        path: '/tracks-playlist/:playlist',
+        component: TracksPlaylist,
+        options: {
+            props: true,
+        }
     },
     {
         path: '(.*)',

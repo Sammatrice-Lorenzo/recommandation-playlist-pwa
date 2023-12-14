@@ -35,6 +35,7 @@ export async function findUser(emailUserSpotify) {
         const usersToArray = Object.entries(users).map(([uId, user]) => ({
             uId: uId,
             email: user.email,
+            playlists: user.playlists
         }))
 
         user = usersToArray.filter(user => user.email === emailUserSpotify)[0]
@@ -47,11 +48,13 @@ export async function findUser(emailUserSpotify) {
  * @param { string } emailUser
  * @returns {  Promise<any> }
  */
-export async function getUser(emailUser) {
+export async function getUser() {
+    const emailUser = getEmailUserStored()
+
     let user = await findUser(emailUser)
 
     if (!user) {
-        createUser(emailUser)
+        createUser()
         user = await findUser(emailUser)
     }
 

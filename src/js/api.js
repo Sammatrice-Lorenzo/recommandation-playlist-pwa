@@ -63,8 +63,6 @@ export async function apiRequest(url, method, body)
 
         if (response.status === 200) {
             const data = await response.json()
-            f7.dialog.alert('La playlist recommandé selon vos mouvements')
-
             return data
         }
         f7.dialog.alert(ERROR_SERVER)

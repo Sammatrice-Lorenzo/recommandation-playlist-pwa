@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { LogoComponent } from '../components/logo'
 import UserProfile from '../components/user-profile'
-import { Button, Page, Toolbar, List, Card, LoginScreenTitle, BlockFooter, CardContent, f7 } from 'framework7-react'
 import { LinksToolbar } from '../components/links-toolbar'
+import { Button, Page, Toolbar, List, Card, LoginScreenTitle, BlockFooter, CardContent } from 'framework7-react'
 
 const Home = () => {
     const redirectUri = encodeURIComponent(URL_SITE)
