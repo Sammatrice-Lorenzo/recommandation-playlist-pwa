@@ -37,7 +37,7 @@ const PlaylistUser = () => {
             <BlockTitle>Vos playlist</BlockTitle>
             {playlists && <Block>
                 <div className="my-playlists">
-                    {playlists.length > 1 ? showPlaylists() : f7.preloader.show()}
+                    {playlists.length >= 1 ? showPlaylists() : f7.preloader.show()}
                 </div>
             </Block>}
             <Toolbar tabbar icons position="bottom">

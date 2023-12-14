@@ -28,9 +28,8 @@ const MyApp = () => {
         })
         setInterval(async () => {
             await sendMovementsUser()
-        }, 30000)
-        // }, 1200000)
-        // }, 120000)
+        }, 1200000)
+        // }, 60000)
     })
 
     return (
